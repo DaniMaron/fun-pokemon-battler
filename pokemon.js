@@ -39,17 +39,44 @@ class Pokemon{
 
 
 class Water extends Pokemon{
-    constructor(){
+    constructor(name,hitPoints,attackDamage,move){
         super(name,hitPoints,attackDamage,move);
         this.type = "water";
+    }
+
+    isEffectiveAgainst(givenPokemon){
+        if(givenPokemon.type === 'normal')
+            return false
+
+        return givenPokemon.type === "fire" ? true : false;
+    }
+    
+    isWeakAgainst(givenPokemon){
+        if(givenPokemon.type === 'normal')
+            return false
+
+        return givenPokemon.type === "grass" ? true : false;
     }
 
 }
 
 class Grass extends Pokemon{
-    constructor(){
+    constructor(name,hitPoints,attackDamage,move){
         super(name,hitPoints,attackDamage,move);
-        this.type = "grasss";
+        this.type = "grass";
+    }
+    isEffectiveAgainst(givenPokemon){
+        if(givenPokemon.type === 'normal')
+            return false
+       
+        return givenPokemon.type === "water" ? true : false;
+    }
+
+    isWeakAgainst(givenPokemon){
+        if(givenPokemon.type === 'normal')
+            return false
+       
+        return givenPokemon.type === "fire" ? true : false;
     }
 
 }
@@ -61,12 +88,17 @@ class Fire extends Pokemon{
     }
 
     isEffectiveAgainst(givenPokemon){
-        // console.log(givenPokemon.type);
-        console.log(this.type + ',' + givenPokemon.type);
+        if(givenPokemon.type === 'normal')
+            return false
+        //return this.types[0][this.type + ',' + this.givenPokemon.type]
+        return givenPokemon.type === "grass" ? true : false;
+    }
+
+    isWeakAgainst(givenPokemon){
         if(givenPokemon.type === 'normal')
             return false
        
-        return this.types[0][this.type + ',' + this.givenPokemon.type]
+        return givenPokemon.type === "water" ? true : false;
     }
     
 }
@@ -77,13 +109,53 @@ class Normal extends Pokemon{
         this.type = "normal";
     }
 
+    isEffectiveAgainst(givenPokemon){     
+        return false;
+    }
+
+    isWeakAgainst(givenPokemon){    
+        return false;
+    }
+
 }
 
-function isEffectiveAgainst(pokemon){
+class Charmander extends Fire{
+    constructor(hitPoints, attackDamage){
+        super(hitPoints,attackDamage);
+        this.name = "Charmander";
+        this.move = "ember"
+    };
 
-    
+}
 
-} 
+class Squirtle extends Water{
+    constructor(hitPoints, attackDamage){
+        super(hitPoints,attackDamage);
+        this.name = "Squirtle";
+        this.move = "water gun"
+    };
+
+}
+
+class Bulbasaur extends Grass{
+    constructor(hitPoints, attackDamage){
+        super(hitPoints,attackDamage);
+        this.name = "Bulbasaur";
+        this.move = "vine whip"
+    };
+
+}
+
+class Rattata  extends Normal{
+    constructor(hitPoints, attackDamage,move){
+        super(hitPoints,attackDamage,move);
+        this.name = "Rattata";        
+    };
+}
 
 
-module.exports = {Pokemon,Grass,Water,Fire, Normal}
+
+
+
+
+module.exports = {Pokemon,Grass,Water,Fire, Normal, Charmander, Squirtle}
