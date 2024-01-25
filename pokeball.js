@@ -1,4 +1,3 @@
-const Pokemon = require("./pokemon")
 
 class Pokeball {
     constructor(){

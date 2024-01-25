@@ -1,5 +1,6 @@
 const {Pokemon,Grass,Water, Fire,Normal, Charmander, Squirtle } = require("./pokemon");
 const Pokeball = require("./pokeball");
+const Trainer = require("./trainer");
 //const Fire = require("./fire")
 // const Grass = require("./pokemon")
 //const Normal = require("./pokemon")
@@ -60,7 +61,7 @@ describe('Pokemon', () => {
 
     test('return Charmander class with its name and move ', () => {
         const currentPokemon = new Charmander(44,17);
-        const currentPokemon2 = new Squirtle(44,17);
+        const currentPokemon2 = new Squirtle(44,16);
 
          expect(currentPokemon.name).toBe("Charmander");
          expect(currentPokemon.move).toBe("ember");
@@ -100,10 +101,51 @@ describe('Pokemon', () => {
 
         newPokeBall.throw()
         expect(consoleLogSpy).toHaveBeenCalledWith('GO Squirtle!!');
-        
-
-      
+             
     });
+
+    test('return trainer name', () => {
+        const newTrainer = new Trainer("Ash");
+         expect(newTrainer.name).toBe("Ash")
+    });
+    
+    test('return the belt amount when we catch a pokemon', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44,17);
+
+        expect(newTrainer.belt.length).toEqual(0);
+        newTrainer.catch(newPokemon);
+        expect(newTrainer.belt.length).toEqual(1);
+    });
+
+    test('return the belt amount when we catch a certain amount of pokemon ', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44,17);
+
+        expect(newTrainer.belt.length).toEqual(0);
+        newTrainer.catch(newPokemon);
+        expect(newTrainer.belt.length).toEqual(1);
+        newTrainer.catch(newPokemon);
+        newTrainer.catch(newPokemon);
+        newTrainer.catch(newPokemon);
+        newTrainer.catch(newPokemon);
+        newTrainer.catch(newPokemon);
+        expect(newTrainer.belt.length).toEqual(6);
+        expect(newTrainer.catch(newPokemon)).toEqual("you dont have any empty poke balls!!");
+        
+    });
+
+    test('should ', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44,17);
+        const consoleLogSpy = jest.spyOn(console,'log')
+
+        newTrainer.getPokemon("Charmander");
+        expect(consoleLogSpy).toHaveBeenCalledWith('GO Charmander!!');
+    });
+    
+
+    
 
     
     
