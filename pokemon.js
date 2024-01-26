@@ -11,19 +11,11 @@ class Pokemon{
         this.hitPoints = hitPoints;
         this.attackDamage = attackDamage;
         this.move = move;
-        this.types = [
-            {'fire,grass': true},
-            {'grass,water': true},
-            {'water,fire': true},
-            {'fire,water': false},
-            {'water,grass': false},
-            {'grass,fire': false},
-        ]
     }
 
     takeDamage(damage){
-        this.hitPoints -= damage;
-    }
+        this.hitPoints -= damage; 
+    }  
 
     useMove(){
         console.log(`${this.name} used ${this.move}`)
@@ -38,6 +30,28 @@ class Pokemon{
 }
 
 
+class Fire extends Pokemon{
+    constructor(name,hitPoints, attackDamage,move){
+        super(name,hitPoints,attackDamage,move);
+        this.type = "fire";
+    }
+    
+    isEffectiveAgainst(givenPokemon){
+        if(givenPokemon.type === 'normal')
+        return false
+    //return this.types[0][this.type + ',' + this.givenPokemon.type]
+    return givenPokemon.type === "grass" ? true : false;
+}
+
+isWeakAgainst(givenPokemon){
+    if(givenPokemon.type === 'normal')
+    return false
+
+return givenPokemon.type === "water" ? true : false;
+}
+
+}
+
 class Water extends Pokemon{
     constructor(name,hitPoints,attackDamage,move){
         super(name,hitPoints,attackDamage,move);
@@ -51,7 +65,8 @@ class Water extends Pokemon{
         return givenPokemon.type === "fire" ? true : false;
     }
     
-    isWeakAgainst(givenPokemon){
+    isWeakAgainst(givenPokemon){        this.move = "vine whip"
+
         if(givenPokemon.type === 'normal')
             return false
 
@@ -59,7 +74,6 @@ class Water extends Pokemon{
     }
 
 }
-
 class Grass extends Pokemon{
     constructor(name,hitPoints,attackDamage,move){
         super(name,hitPoints,attackDamage,move);
@@ -81,27 +95,6 @@ class Grass extends Pokemon{
 
 }
 
-class Fire extends Pokemon{
-    constructor(name,hitPoints, attackDamage,move){
-        super(name,hitPoints,attackDamage,move);
-        this.type = "fire";
-    }
-
-    isEffectiveAgainst(givenPokemon){
-        if(givenPokemon.type === 'normal')
-            return false
-        //return this.types[0][this.type + ',' + this.givenPokemon.type]
-        return givenPokemon.type === "grass" ? true : false;
-    }
-
-    isWeakAgainst(givenPokemon){
-        if(givenPokemon.type === 'normal')
-            return false
-       
-        return givenPokemon.type === "water" ? true : false;
-    }
-    
-}
 
 class Normal extends Pokemon{
     constructor(name,hitPoints, attackDamage, move){
@@ -121,17 +114,23 @@ class Normal extends Pokemon{
 
 class Charmander extends Fire{
     constructor(hitPoints, attackDamage){
-        super(hitPoints,attackDamage);
-        this.name = "Charmander";
-        this.move = "ember"
-    };
-
+        super(hitPoints, attackDamage);
+        
+        this.name = 'Charmander';  
+        this.hitPoints = hitPoints
+        this.attackDamage = attackDamage 
+        this.move = "ember" 
+    }; 
+ 
 }
 
 class Squirtle extends Water{
     constructor(hitPoints, attackDamage){
-        super(hitPoints,attackDamage);
-        this.name = "Squirtle";
+        super(hitPoints, attackDamage);
+        
+        this.name = 'Squirtle'
+        this.hitPoints = hitPoints
+        this.attackDamage = attackDamage 
         this.move = "water gun"
     };
 
@@ -139,8 +138,11 @@ class Squirtle extends Water{
 
 class Bulbasaur extends Grass{
     constructor(hitPoints, attackDamage){
-        super(hitPoints,attackDamage);
-        this.name = "Bulbasaur";
+        super(hitPoints, attackDamage);
+        
+        this.name = 'Bulbasaur';  
+        this.hitPoints = hitPoints
+        this.attackDamage = attackDamage 
         this.move = "vine whip"
     };
 
@@ -148,8 +150,12 @@ class Bulbasaur extends Grass{
 
 class Rattata  extends Normal{
     constructor(hitPoints, attackDamage,move){
-        super(hitPoints,attackDamage,move);
-        this.name = "Rattata";        
+        super(hitPoints, attackDamage,move);
+        
+        this.name = 'Rattata';  
+        this.hitPoints = hitPoints
+        this.attackDamage = attackDamage 
+        this.move =  move
     };
 }
 
@@ -158,4 +164,4 @@ class Rattata  extends Normal{
 
 
 
-module.exports = {Pokemon,Grass,Water,Fire, Normal, Charmander, Squirtle}
+module.exports = {Pokemon,Grass,Water,Fire, Normal, Charmander, Squirtle, Bulbasaur, Rattata}

@@ -25,6 +25,7 @@ class Trainer{
                 ball.throw();
             }
         }
+        return "You don't own this pokemon"
         
     }
 

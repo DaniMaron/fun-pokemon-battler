@@ -1,10 +1,7 @@
-const {Pokemon,Grass,Water, Fire,Normal, Charmander, Squirtle } = require("./pokemon");
+const {Pokemon,Grass,Water, Fire,Normal, Charmander, Squirtle, Bulbasaur, Rattata } = require("./pokemon");
 const Pokeball = require("./pokeball");
 const Trainer = require("./trainer");
-//const Fire = require("./fire")
-// const Grass = require("./pokemon")
-//const Normal = require("./pokemon")
-// const Water = require("./pokemon")
+const Battle = require('./battle')
 
 describe('Pokemon', () => {
 
@@ -54,14 +51,20 @@ describe('Pokemon', () => {
     });
     test('returns true when current pokemon is weak against against given pokemon', () => {
         const currentPokemon = new Fire("Charmander",44,17,"Flamethrower");
-        const givenPokemon = new Water('Squirtle',44,16,'Surf')
+        const givenPokemon = new Water('Squirtle', 44, 16, 'Surf')
+        expect(currentPokemon.attackDamage).toEqual(17)
+        expect(givenPokemon.attackDamage).toEqual(16)
         expect(currentPokemon.isWeakAgainst(givenPokemon)).toBe(true);
         expect(givenPokemon.isEffectiveAgainst(currentPokemon)).toBe(true);
     });
-
+    
     test('return Charmander class with its name and move ', () => {
         const currentPokemon = new Charmander(44,17);
-        const currentPokemon2 = new Squirtle(44,16);
+        const currentPokemon2 = new Squirtle(44, 16);
+        
+        expect(currentPokemon.attackDamage).toEqual(17)
+        expect(currentPokemon.move).toEqual('ember')
+        expect(currentPokemon2.attackDamage).toEqual(16)
 
          expect(currentPokemon.name).toBe("Charmander");
          expect(currentPokemon.move).toBe("ember");
@@ -135,7 +138,7 @@ describe('Pokemon', () => {
         
     });
 
-    test('should ', () => {
+    test('returns correct pokemon name when using throw method and pokemon exists in the belt', () => {
         const newTrainer = new Trainer("Ash");
         const newPokemon = new Charmander(44,17);
         const consoleLogSpy = jest.spyOn(console,'log')
@@ -143,12 +146,70 @@ describe('Pokemon', () => {
         newTrainer.getPokemon("Charmander");
         expect(consoleLogSpy).toHaveBeenCalledWith('GO Charmander!!');
     });
+    test('displays message if pokemon is not in belt', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44,17);
+        const consoleLogSpy = jest.spyOn(console,'log')
+        expect(newTrainer.getPokemon("Squirtle")).toBe("You don't own this pokemon");
+    });
+    test('returning correct hitpoints when attacker type is weak against defender type', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44, 17);
+        const newTrainer2 = new Trainer("Misty");
+        const newPokemon2 = new Squirtle(44,16);
+        const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
+        newBattle.fight(newPokemon)
+        expect(newPokemon2.hitPoints).toBe(31.25)
+    });
+    test('returning correct hitpoints when attacker type is effective against defender type', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44, 17);
+        const newTrainer2 = new Trainer("Misty");
+        const newPokemon2 = new Bulbasaur(45,16);
+        const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
+        newBattle.fight(newPokemon)
+        expect(newPokemon2.hitPoints).toBe(23.75)
+    });
+    test('returning correct hitpoints when attacker type is neither strong nor weak against defender type', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Rattata(47, 15,'uselesness');
+        const newTrainer2 = new Trainer("Misty");
+        const newPokemon2 = new Bulbasaur(45,16);
+        const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
+        newBattle.fight(newPokemon)
+        expect(newPokemon2.hitPoints).toBe(30)
+    });
+    test('displays correct message when attack is super effective', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44, 17);
+        const newTrainer2 = new Trainer("Misty");
+        const newPokemon2 = new Bulbasaur(45,16);
+        const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
+        newBattle.fight(newPokemon)
+        const consoleLogSpy = jest.spyOn(console, 'log')
+        expect(consoleLogSpy).toHaveBeenCalledWith('Charmander used ember on Bulbasaur!\nThis was super effective');
+    });
+    test('displays correct message when attack is not super effective', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44, 17);
+        const newTrainer2 = new Trainer("Misty");
+        const newPokemon2 = new Squirtle(44,16);
+        const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
+        newBattle.fight(newPokemon)
+        const consoleLogSpy = jest.spyOn(console, 'log')
+        expect(consoleLogSpy).toHaveBeenCalledWith('Charmander used ember on Squirtle!\n');
+    });
+    test('displays correct message when attack is not super effective', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Rattata(47, 15,'uselesness');
+        const newTrainer2 = new Trainer("Misty");
+        const newPokemon2= new Charmander(44, 17);
+        const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
+        newBattle.fight(newPokemon)
+        const consoleLogSpy = jest.spyOn(console, 'log')
+        expect(consoleLogSpy).toHaveBeenCalledWith('Rattata used uselesness on Charmander!\n');
+    });
     
 
-    
-
-    
-    
-    
     
 })
