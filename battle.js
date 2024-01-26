@@ -19,34 +19,38 @@ class Battle {
     }
 
     fight(playingPokemon) {
-        // console.log(attacker, '----attacker');
-        // console.log(attacker.attackDamage,'--------attacker damage');
-        // console.log(defender,'-------defender');
-        // console.log(defender.hitPoints, '-------defender hitpoints after');
-        
-        // console.log(defender.hitPoints,'-------defender hitpoints before');
+
         let effectiveness = ''
         let attacker = playingPokemon
         let defender = this.switchPokemon(attacker)
+        const effective = 0.75
+        const weak = 1.25
 
-        if (defender.isEffectiveAgainst(attacker)) {
-            defender.hitPoints -= attacker.attackDamage * 0.75
+        if (defender.isEffectiveAgainst(attacker)) { 
+            defender.takeDamage(attacker.attackDamage * effective)
+            effectiveness = 'This was not very effective'
         }
+
         else if (defender.isWeakAgainst(attacker)){
-        defender.hitPoints -= attacker.attackDamage * 1.25
-        effectiveness = 'This was super effective'}
+            defender.takeDamage(attacker.attackDamage * weak)
+            effectiveness = 'This was super effective'
+        }
 
         else
-            defender.hitPoints -= attacker.attackDamage
+            defender.takeDamage(attacker.attackDamage)
     
-        console.log(`${attacker.name} used ${attacker.move} on ${defender.name}!\n${effectiveness}`);
-            
- 
-
-
-        this.playingPokemon = defender 
-
+        attacker.useMove() 
+        console.log(effectiveness);
+         
+        if(!defender.hasFainted())
+            this.playingPokemon = defender
+        else
+            console.log(`${attacker.name} wins!`); 
+         
     }
+    
+
+
 }
 
 module.exports = Battle

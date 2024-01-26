@@ -187,9 +187,10 @@ describe('Pokemon', () => {
         const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
         newBattle.fight(newPokemon)
         const consoleLogSpy = jest.spyOn(console, 'log')
-        expect(consoleLogSpy).toHaveBeenCalledWith('Charmander used ember on Bulbasaur!\nThis was super effective');
+        expect(consoleLogSpy).toHaveBeenCalledWith('Charmander used ember!\n');
+        expect(consoleLogSpy).toHaveBeenCalledWith('This was super effective');
     });
-    test('displays correct message when attack is not super effective', () => {
+    test('displays correct message when attack is not very effective', () => {
         const newTrainer = new Trainer("Ash");
         const newPokemon = new Charmander(44, 17);
         const newTrainer2 = new Trainer("Misty");
@@ -197,9 +198,10 @@ describe('Pokemon', () => {
         const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
         newBattle.fight(newPokemon)
         const consoleLogSpy = jest.spyOn(console, 'log')
-        expect(consoleLogSpy).toHaveBeenCalledWith('Charmander used ember on Squirtle!\n');
+        expect(consoleLogSpy).toHaveBeenCalledWith('Charmander used ember!\n');
+        expect(consoleLogSpy).toHaveBeenCalledWith('This was not very effective');
     });
-    test('displays correct message when attack is not super effective', () => {
+    test('displays correct message when attack is neither effective nor weak', () => {
         const newTrainer = new Trainer("Ash");
         const newPokemon = new Rattata(47, 15,'uselesness');
         const newTrainer2 = new Trainer("Misty");
@@ -207,9 +209,39 @@ describe('Pokemon', () => {
         const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
         newBattle.fight(newPokemon)
         const consoleLogSpy = jest.spyOn(console, 'log')
-        expect(consoleLogSpy).toHaveBeenCalledWith('Rattata used uselesness on Charmander!\n');
+        expect(consoleLogSpy).toHaveBeenCalledWith('Rattata used uselesness!\n');
     });
-    
+    test('displays correct message when a pokemon wins', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44, 17);
+        const newTrainer2 = new Trainer("Misty");
+        const newPokemon2 = new Squirtle(44, 16);
+        const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
+        newBattle.fight(newPokemon)
+        newBattle.fight(newPokemon)
+        newBattle.fight(newPokemon)
+        newBattle.fight(newPokemon)
+        const consoleLogSpy = jest.spyOn(console, 'log')
+        expect(consoleLogSpy).toHaveBeenCalledWith('Charmander wins!');
+    })
+    test('displays correct message when a pokemon wins', () => {
+        const newTrainer = new Trainer("Ash");
+        const newPokemon = new Charmander(44, 17);
+        const newTrainer2 = new Trainer("Misty");
+        const newPokemon2 = new Squirtle(44, 16);
+        const newBattle = new Battle(newTrainer, newTrainer2, newPokemon, newPokemon2)
+        newBattle.fight(newPokemon2)
+        newBattle.fight(newPokemon2)
+        newBattle.fight(newPokemon2)
+        const consoleLogSpy = jest.spyOn(console, 'log')
+        expect(consoleLogSpy).toHaveBeenCalledWith('Squirtle wins!');
+    })
 
-    
+
+
+
+
+
+
+
 })

@@ -18,7 +18,7 @@ class Pokemon{
     }  
 
     useMove(){
-        console.log(`${this.name} used ${this.move}`)
+        console.log(`${this.name} used ${this.move}!\n`)
         return this.attackDamage;
     }
 
@@ -43,12 +43,12 @@ class Fire extends Pokemon{
     return givenPokemon.type === "grass" ? true : false;
 }
 
-isWeakAgainst(givenPokemon){
-    if(givenPokemon.type === 'normal')
-    return false
+    isWeakAgainst(givenPokemon){
+        if(givenPokemon.type === 'normal')
+            return false
 
-return givenPokemon.type === "water" ? true : false;
-}
+        return givenPokemon.type === "water" ? true : false;
+    }
 
 }
 
